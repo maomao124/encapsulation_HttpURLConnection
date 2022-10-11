@@ -1,5 +1,7 @@
 package mao;
 
+import java.util.Map;
+
 /**
  * Project name(项目名称)：封装HttpURLConnection
  * Package(包名): mao
@@ -15,5 +17,55 @@ package mao;
 
 public interface RestfulHTTP extends HTTP
 {
+    /**
+     * 请求
+     *
+     * @param responseClazz 响应体的类型字节码
+     * @param urlString     url字符串
+     * @param method        方法
+     * @param requestHeader 请求头
+     * @param requestBody   请求体
+     * @return {@link T}
+     */
+    <T> T request(Class<T> responseClazz, String urlString, String method,
+                  Map<String, String> requestHeader, Object requestBody);
 
+    /**
+     * GET请求
+     *
+     * @param responseClazz 响应体的类型字节码
+     * @param urlString     url字符串
+     * @param requestHeader 请求头
+     * @param requestBody   请求体
+     * @return {@link T}
+     */
+    <T> T GET(Class<T> responseClazz, String urlString,
+              Map<String, String> requestHeader, Object requestBody);
+
+
+    /**
+     * 异步请求
+     *
+     * @param responseClazz 响应clazz
+     * @param urlString     url字符串
+     * @param method        方法
+     * @param requestHeader 请求头
+     * @param requestBody   请求体
+     * @param listener      侦听器
+     */
+    <T> void asyncRequest(Class<T> responseClazz, String urlString, String method,
+                     Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener);
+
+
+    /**
+     * 异步GET请求
+     *
+     * @param responseClazz 响应clazz
+     * @param urlString     url字符串
+     * @param requestHeader 请求头
+     * @param requestBody   请求体
+     * @param listener      侦听器
+     */
+    <T> void asyncGETRequest(Class<T> responseClazz, String urlString,
+                          Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener);
 }

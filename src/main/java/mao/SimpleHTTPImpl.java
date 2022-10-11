@@ -22,32 +22,51 @@ import java.util.function.BiConsumer;
  * Description(描述)： 无
  */
 
+//public interface HTTPHandlerListener
+//{
+//    /**
+//     * 正常处理
+//     *
+//     * @param responseString 响应体
+//     * @param responseCode   响应代码
+//     */
+//    void OKHandler(String responseString, int responseCode);
+//
+//    /**
+//     * 异常处理
+//     *
+//     * @param e            IOException
+//     * @param responseCode 响应代码
+//     */
+//    void ExceptionHandler(IOException e, int responseCode);
+//}
+
 public class SimpleHTTPImpl implements HTTP
 {
     /**
      * 字符集
      */
-    private String charset = "UTF-8";
+    protected String charset = "UTF-8";
 
     /**
      * 连接超时时间
      */
-    private int connectTimeout = 5000;
+    protected int connectTimeout = 5000;
 
     /**
      * 读取超时时间
      */
-    private int readTimeout = 5000;
+    protected int readTimeout = 5000;
 
     /**
      * 默认请求头
      */
-    private Map<String, String> defaultRequestHeader;
+    protected Map<String, String> defaultRequestHeader;
 
     /**
      * 线程池
      */
-    private ExecutorService threadPool;
+    protected ExecutorService threadPool;
 
 
     public SimpleHTTPImpl()
