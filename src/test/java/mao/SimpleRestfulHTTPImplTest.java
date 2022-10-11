@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +39,8 @@ class SimpleRestfulHTTPImplTest
 //        map.put("Content-Type", "application/json;charsetset=UTF-8");
 //        map.put("Accept", "application/json");
         http.setDefaultRequestHeader(map);
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        http.setThreadPool(executorService);
     }
 
 
