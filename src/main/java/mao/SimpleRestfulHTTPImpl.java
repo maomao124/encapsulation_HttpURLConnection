@@ -124,6 +124,20 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
     @Override
     public <T> void asyncRequest(Class<T> responseClazz, String urlString, String method, Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener)
     {
+        if (requestBody!=null)
+        {
+            if (requestHeader == null)
+            {
+                requestHeader = new HashMap<>();
+                requestHeader.put("Content-Type", "application/json;charsetset=UTF-8");
+                requestHeader.put("Accept", "application/json");
+            }
+            else
+            {
+                requestHeader.put("Content-Type", "application/json;charsetset=UTF-8");
+                requestHeader.put("Accept", "application/json");
+            }
+        }
         this.asyncRequest(urlString, method, requestHeader, requestBody == null ? null : toJson(requestBody), new HTTPHandlerListener()
         {
             @Override

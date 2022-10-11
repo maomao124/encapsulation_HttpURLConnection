@@ -4,6 +4,7 @@ import mao.entity.Student;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,6 +89,31 @@ class SimpleRestfulHTTPImplTest
     @Test
     void asyncRequest()
     {
+        http.asyncRequest(Student.class, "http://localhost:8080/test", "POST",
+                null, new Student().setId(20589L), new RestfulHTTPHandlerListener()
+                {
+                    @Override
+                    public <T> void OKHandler(T responseData, int responseCode)
+                    {
+                        System.out.println(responseCode);
+                        System.out.println(responseData);
+                    }
+
+                    @Override
+                    public void ExceptionHandler(IOException e, int responseCode)
+                    {
+                        e.printStackTrace();
+                    }
+                });
+
+        try
+        {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Test
