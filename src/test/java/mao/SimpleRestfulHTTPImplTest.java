@@ -119,5 +119,30 @@ class SimpleRestfulHTTPImplTest
     @Test
     void asyncGETRequest()
     {
+        http.asyncGETRequest(Student.class, "http://localhost:8080/test", null, null, new RestfulHTTPHandlerListener()
+        {
+            @Override
+            public <T> void OKHandler(T responseData, int responseCode)
+            {
+                System.out.println(responseCode);
+                System.out.println(responseData);
+            }
+
+            @Override
+            public void ExceptionHandler(IOException e, int responseCode)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        try
+        {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
+
 }
