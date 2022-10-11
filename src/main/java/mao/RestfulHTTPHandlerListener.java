@@ -15,7 +15,7 @@ import java.io.IOException;
  * Description(描述)： 无
  */
 
-public interface RestfulHTTPHandlerListener
+public interface RestfulHTTPHandlerListener<T>
 {
     /**
      * 正常处理
@@ -23,7 +23,7 @@ public interface RestfulHTTPHandlerListener
      * @param responseData 响应数据
      * @param responseCode 响应代码
      */
-    <T> void OKHandler(T responseData, int responseCode);
+    void OKHandler(T responseData, int responseCode);
 
     /**
      * 异常处理

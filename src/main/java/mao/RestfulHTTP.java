@@ -54,7 +54,7 @@ public interface RestfulHTTP extends HTTP
      * @param listener      侦听器
      */
     <T> void asyncRequest(Class<T> responseClazz, String urlString, String method,
-                     Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener);
+                     Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener<T> listener);
 
 
     /**
@@ -67,5 +67,5 @@ public interface RestfulHTTP extends HTTP
      * @param listener      侦听器
      */
     <T> void asyncGETRequest(Class<T> responseClazz, String urlString,
-                          Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener);
+                          Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener<T> listener);
 }

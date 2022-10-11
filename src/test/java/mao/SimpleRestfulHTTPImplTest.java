@@ -94,10 +94,10 @@ class SimpleRestfulHTTPImplTest
     void asyncRequest()
     {
         http.asyncRequest(Student.class, "http://localhost:8080/test", "POST",
-                null, new Student().setId(20589L), new RestfulHTTPHandlerListener()
+                null, new Student().setId(20589L), new RestfulHTTPHandlerListener<Student>()
                 {
                     @Override
-                    public <T> void OKHandler(T responseData, int responseCode)
+                    public void OKHandler(Student responseData, int responseCode)
                     {
                         System.out.println(responseCode);
                         System.out.println(responseData);
@@ -109,6 +109,7 @@ class SimpleRestfulHTTPImplTest
                         e.printStackTrace();
                     }
                 });
+
 
         try
         {
@@ -123,10 +124,10 @@ class SimpleRestfulHTTPImplTest
     @Test
     void asyncGETRequest()
     {
-        http.asyncGETRequest(Student.class, "http://localhost:8080/test", null, null, new RestfulHTTPHandlerListener()
+        http.asyncGETRequest(Student.class, "http://localhost:8080/test", null, null, new RestfulHTTPHandlerListener<Student>()
         {
             @Override
-            public <T> void OKHandler(T responseData, int responseCode)
+            public void OKHandler(Student responseData, int responseCode)
             {
                 System.out.println(responseCode);
                 System.out.println(responseData);

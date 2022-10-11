@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
  */
 
 
-//public interface RestfulHTTPHandlerListener
+//public interface RestfulHTTPHandlerListener<T>
 //{
 //    /**
 //     * 正常处理
@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 //     * @param responseData 响应数据
 //     * @param responseCode 响应代码
 //     */
-//    <T> void OKHandler(T responseData, int responseCode);
+//    void OKHandler(T responseData, int responseCode);
 //
 //    /**
 //     * 异常处理
@@ -122,7 +122,8 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
      * @param listener      侦听器
      */
     @Override
-    public <T> void asyncRequest(Class<T> responseClazz, String urlString, String method, Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener)
+    public <T> void asyncRequest(Class<T> responseClazz, String urlString, String method,
+                                 Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener<T> listener)
     {
         if (requestBody!=null)
         {
@@ -166,7 +167,7 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
      */
     @Override
     public <T> void asyncGETRequest(Class<T> responseClazz, String urlString,
-                                    Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener)
+                                    Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener<T> listener)
     {
         this.asyncRequest(responseClazz, urlString, "GET", requestHeader, requestBody, listener);
     }
