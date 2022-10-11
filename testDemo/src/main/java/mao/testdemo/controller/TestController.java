@@ -43,7 +43,7 @@ public class TestController
     }
 
     @PostMapping("/test")
-    public Student post(@RequestHeader(required = false) Map<String, String> header, @RequestBody(required = false) Student student)
+    public Student post(@RequestHeader(required = false) Map<String, String> header,@RequestBody(required = false) Student student)
     {
         log.info("收到了post请求");
         log.info("请求头：" + header);

@@ -63,7 +63,7 @@ class SimpleRestfulHTTPImplTest
         map.put("key1", "value2");
         map.put("b", "c");
         Student student = http.request(Student.class, "http://localhost:8080/test",
-                "GET", map, new Student().setAge(17).setId(100023L));
+                "POST", map, new Student().setAge(17).setId(100023L));
         System.out.println(student);
     }
 
@@ -74,13 +74,15 @@ class SimpleRestfulHTTPImplTest
         map.put("key1", "value2");
         map.put("b", "c");
         Student student = http.request(Student.class, "http://localhost:8080/test",
-                "POST", map, new Student().setAge(17).setId(100023L));
+                "POST", map, new Student().setAge(17).setId(100023L).setName("王五").setSex("男"));
         System.out.println(student);
     }
 
     @Test
     void GET()
     {
+        Student student = http.GET(Student.class, "http://localhost:8080/test", null, null);
+        System.out.println(student);
     }
 
     @Test

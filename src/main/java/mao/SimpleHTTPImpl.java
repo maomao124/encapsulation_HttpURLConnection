@@ -278,6 +278,7 @@ public class SimpleHTTPImpl implements HTTP
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 outputStreamWriter = new OutputStreamWriter(outputStream);
                 outputStreamWriter.write(requestBody);
+                outputStreamWriter.flush();
             }
             //连接
             httpURLConnection.connect();
@@ -513,6 +514,7 @@ public class SimpleHTTPImpl implements HTTP
                         OutputStream outputStream = httpURLConnection.getOutputStream();
                         outputStreamWriter = new OutputStreamWriter(outputStream);
                         outputStreamWriter.write(requestBody);
+                        outputStreamWriter.flush();
                     }
                     //连接
                     httpURLConnection.connect();
