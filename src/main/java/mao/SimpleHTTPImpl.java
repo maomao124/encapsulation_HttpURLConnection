@@ -243,6 +243,20 @@ public class SimpleHTTPImpl implements HTTP
             //设置超时时间
             httpURLConnection.setConnectTimeout(this.getConnectTimeout());
             httpURLConnection.setReadTimeout(this.getReadTimeout());
+            //填充参数的请求头,优先级更高
+            if (requestHeader != null && requestHeader.size() != 0)
+            {
+                HttpURLConnection finalHttpURLConnection1 = httpURLConnection;
+                requestHeader.forEach(new BiConsumer<String, String>()
+                {
+                    @Override
+                    public void accept(String s, String s2)
+                    {
+                        //System.out.println("s=" + s + ",s2=" + s2);
+                        finalHttpURLConnection1.addRequestProperty(s, s2);
+                    }
+                });
+            }
             //填充默认的请求头
             if (defaultRequestHeader != null && defaultRequestHeader.size() != 0)
             {
@@ -254,20 +268,6 @@ public class SimpleHTTPImpl implements HTTP
                     {
                         //System.out.println("s=" + s + ",s2=" + s2);
                         finalHttpURLConnection.addRequestProperty(s, s2);
-                    }
-                });
-            }
-            //填充参数的请求头
-            if (requestHeader != null && requestHeader.size() != 0)
-            {
-                HttpURLConnection finalHttpURLConnection1 = httpURLConnection;
-                requestHeader.forEach(new BiConsumer<String, String>()
-                {
-                    @Override
-                    public void accept(String s, String s2)
-                    {
-                        //System.out.println("s=" + s + ",s2=" + s2);
-                        finalHttpURLConnection1.addRequestProperty(s, s2);
                     }
                 });
             }
@@ -478,6 +478,20 @@ public class SimpleHTTPImpl implements HTTP
                     //设置超时时间
                     httpURLConnection.setConnectTimeout(getConnectTimeout());
                     httpURLConnection.setReadTimeout(getReadTimeout());
+                    //填充参数的请求头，优先级更高
+                    if (requestHeader != null && requestHeader.size() != 0)
+                    {
+                        HttpURLConnection finalHttpURLConnection1 = httpURLConnection;
+                        requestHeader.forEach(new BiConsumer<String, String>()
+                        {
+                            @Override
+                            public void accept(String s, String s2)
+                            {
+                                //System.out.println("s=" + s + ",s2=" + s2);
+                                finalHttpURLConnection1.addRequestProperty(s, s2);
+                            }
+                        });
+                    }
                     //填充默认的请求头
                     if (defaultRequestHeader != null && defaultRequestHeader.size() != 0)
                     {
@@ -489,20 +503,6 @@ public class SimpleHTTPImpl implements HTTP
                             {
                                 //System.out.println("s=" + s + ",s2=" + s2);
                                 finalHttpURLConnection.addRequestProperty(s, s2);
-                            }
-                        });
-                    }
-                    //填充参数的请求头
-                    if (requestHeader != null && requestHeader.size() != 0)
-                    {
-                        HttpURLConnection finalHttpURLConnection1 = httpURLConnection;
-                        requestHeader.forEach(new BiConsumer<String, String>()
-                        {
-                            @Override
-                            public void accept(String s, String s2)
-                            {
-                                //System.out.println("s=" + s + ",s2=" + s2);
-                                finalHttpURLConnection1.addRequestProperty(s, s2);
                             }
                         });
                     }

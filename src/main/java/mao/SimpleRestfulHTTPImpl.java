@@ -3,6 +3,7 @@ package mao;
 import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
@@ -70,8 +71,29 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
     @Override
     public <T> T request(Class<T> responseClazz, String urlString, String method, Map<String, String> requestHeader, Object requestBody)
     {
-        String json = this.request(urlString, method, requestHeader, requestBody == null ? null : toJson(requestBody));
-        return this.parse(json, responseClazz);
+        if (requestBody == null)
+        {
+            String json = this.request(urlString, method, requestHeader, null);
+            return this.parse(json, responseClazz);
+        }
+        else
+        {
+            if (requestHeader == null)
+            {
+                Map<String, String> map = new HashMap<>();
+                map.put("Content-Type", "application/json;charsetset=UTF-8");
+                map.put("Accept", "application/json");
+                String json = this.request(urlString, method, map, toJson(requestBody));
+                return this.parse(json, responseClazz);
+            }
+            else
+            {
+                requestHeader.put("Content-Type", "application/json;charsetset=UTF-8");
+                requestHeader.put("Accept", "application/json");
+                String json = this.request(urlString, method, requestHeader, toJson(requestBody));
+                return this.parse(json, responseClazz);
+            }
+        }
     }
 
     /**
