@@ -17,7 +17,12 @@ import java.io.IOException;
 
 public interface RestfulHTTPHandlerListener
 {
-
+    /**
+     * 正常处理
+     *
+     * @param responseData 响应数据
+     * @param responseCode 响应代码
+     */
     <T> void OKHandler(T responseData, int responseCode);
 
     /**
