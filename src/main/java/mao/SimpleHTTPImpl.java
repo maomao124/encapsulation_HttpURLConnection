@@ -440,7 +440,154 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncRequest(String urlString, String method, Map<String, String> requestHeader, String requestBody, HTTPHandlerListener listener)
     {
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                BufferedReader bufferedReader = null;
+                InputStreamReader inputStreamReader = null;
+                InputStream inputStream = null;
+                HttpURLConnection httpURLConnection = null;
+                OutputStreamWriter outputStreamWriter = null;
+                try
+                {
+                    URL url = new URL(urlString);
+                    httpURLConnection = (HttpURLConnection) url.openConnection();
+                    //设置请求方法
+                    httpURLConnection.setRequestMethod(method);
+                    //设置超时时间
+                    httpURLConnection.setConnectTimeout(getConnectTimeout());
+                    httpURLConnection.setReadTimeout(getReadTimeout());
+                    //填充默认的请求头
+                    if (defaultRequestHeader != null && defaultRequestHeader.size() != 0)
+                    {
+                        HttpURLConnection finalHttpURLConnection = httpURLConnection;
+                        defaultRequestHeader.forEach(new BiConsumer<String, String>()
+                        {
+                            @Override
+                            public void accept(String s, String s2)
+                            {
+                                //System.out.println("s=" + s + ",s2=" + s2);
+                                finalHttpURLConnection.addRequestProperty(s, s2);
+                            }
+                        });
+                    }
+                    //填充参数的请求头
+                    if (requestHeader != null && requestHeader.size() != 0)
+                    {
+                        HttpURLConnection finalHttpURLConnection1 = httpURLConnection;
+                        requestHeader.forEach(new BiConsumer<String, String>()
+                        {
+                            @Override
+                            public void accept(String s, String s2)
+                            {
+                                //System.out.println("s=" + s + ",s2=" + s2);
+                                finalHttpURLConnection1.addRequestProperty(s, s2);
+                            }
+                        });
+                    }
+                    //填充请求体
+                    if (requestBody != null && requestBody.length() != 0)
+                    {
+                        httpURLConnection.setDoOutput(true);
+                        OutputStream outputStream = httpURLConnection.getOutputStream();
+                        outputStreamWriter = new OutputStreamWriter(outputStream);
+                        outputStreamWriter.write(requestBody);
+                    }
+                    //连接
+                    httpURLConnection.connect();
+                    //获得输入流
+                    inputStream = httpURLConnection.getInputStream();
+                    //转换流
+                    inputStreamReader = new InputStreamReader(inputStream, getCharset());
+                    //缓冲流
+                    bufferedReader = new BufferedReader(inputStreamReader);
+                    String str;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    //写入数据
+                    while ((str = bufferedReader.readLine()) != null)
+                    {
+                        stringBuilder.append(str).append("\n");
+                    }
+                    listener.OKHandler(stringBuilder.toString(), httpURLConnection.getResponseCode());
+                }
+                catch (IOException e)
+                {
+                    int code = 0;
+                    try
+                    {
+                        if (httpURLConnection != null)
+                        {
+                            code = httpURLConnection.getResponseCode();
+                        }
+                    }
+                    catch (Exception ignored)
+                    {
 
+                    }
+                    listener.ExceptionHandler(e, code);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (bufferedReader != null)
+                        {
+                            bufferedReader.close();
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    try
+                    {
+                        if (inputStreamReader != null)
+                        {
+                            inputStreamReader.close();
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    try
+                    {
+                        if (inputStream != null)
+                        {
+                            inputStream.close();
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    try
+                    {
+                        if (outputStreamWriter != null)
+                        {
+                            outputStreamWriter.close();
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    if (httpURLConnection != null)
+                    {
+                        httpURLConnection.disconnect();
+                    }
+                }
+            }
+        };
+        if (this.threadPool == null)
+        {
+            new Thread(runnable).start();
+            return;
+        }
+        //使用线程池
+        threadPool.submit(runnable);
     }
 
     /**

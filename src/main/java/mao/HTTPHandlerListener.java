@@ -17,7 +17,19 @@ import java.io.IOException;
 
 public interface HTTPHandlerListener
 {
-    void OKHandler(String responseString);
+    /**
+     * 正常处理
+     *
+     * @param responseString 响应体
+     * @param responseCode   响应代码
+     */
+    void OKHandler(String responseString, int responseCode);
 
-    void ExceptionHandler(IOException e);
+    /**
+     * 异常处理
+     *
+     * @param e            IOException
+     * @param responseCode 响应代码
+     */
+    void ExceptionHandler(IOException e, int responseCode);
 }
