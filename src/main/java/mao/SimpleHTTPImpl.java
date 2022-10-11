@@ -601,7 +601,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncRequest(String urlString, String method, Map<String, String> requestHeader, HTTPHandlerListener listener)
     {
-
+        asyncRequest(urlString, method, requestHeader, null, listener);
     }
 
     /**
@@ -615,6 +615,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncRequest(String urlString, String method, String requestBody, HTTPHandlerListener listener)
     {
+        asyncRequest(urlString, method, null, requestBody, listener);
 
     }
 
@@ -628,7 +629,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncRequest(String urlString, String method, HTTPHandlerListener listener)
     {
-
+        asyncRequest(urlString, method, null, null, listener);
     }
 
     /**
@@ -642,6 +643,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncGETRequest(String urlString, Map<String, String> requestHeader, String requestBody, HTTPHandlerListener listener)
     {
+        asyncRequest(urlString, "GET", requestHeader, requestBody, listener);
 
     }
 
@@ -655,7 +657,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncGETRequest(String urlString, Map<String, String> requestHeader, HTTPHandlerListener listener)
     {
-
+        asyncRequest(urlString, "GET", requestHeader, null, listener);
     }
 
     /**
@@ -668,6 +670,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncGETRequest(String urlString, String requestBody, HTTPHandlerListener listener)
     {
+        asyncRequest(urlString, "GET", null, requestBody, listener);
 
     }
 
@@ -680,6 +683,7 @@ public class SimpleHTTPImpl implements HTTP
     @Override
     public void asyncGETRequest(String urlString, HTTPHandlerListener listener)
     {
+        asyncRequest(urlString, "GET", null, null, listener);
 
     }
 }
