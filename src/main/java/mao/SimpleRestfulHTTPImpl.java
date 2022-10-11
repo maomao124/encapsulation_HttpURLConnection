@@ -2,6 +2,7 @@ package mao;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
@@ -64,7 +65,7 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
     @Override
     public <T> T GET(Class<T> responseClazz, String urlString, Map<String, String> requestHeader, Object requestBody)
     {
-        return request(responseClazz,urlString, "GET", requestHeader, requestBody);
+        return request(responseClazz, urlString, "GET", requestHeader, requestBody);
     }
 
     /**
@@ -80,7 +81,21 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
     @Override
     public <T> void asyncRequest(Class<T> responseClazz, String urlString, String method, Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener)
     {
+        this.asyncRequest(urlString, method, requestHeader, requestBody == null ? null : toJson(requestBody), new HTTPHandlerListener()
+        {
+            @Override
+            public void OKHandler(String responseString, int responseCode)
+            {
+                T t = parse(responseString, responseClazz);
+                listener.OKHandler(t, responseCode);
+            }
 
+            @Override
+            public void ExceptionHandler(IOException e, int responseCode)
+            {
+                listener.ExceptionHandler(e, responseCode);
+            }
+        });
     }
 
     /**
@@ -96,7 +111,7 @@ public class SimpleRestfulHTTPImpl extends SimpleHTTPImpl implements RestfulHTTP
     public <T> void asyncGETRequest(Class<T> responseClazz, String urlString,
                                     Map<String, String> requestHeader, Object requestBody, RestfulHTTPHandlerListener listener)
     {
-
+        this.asyncRequest(responseClazz, urlString, "GET", requestHeader, requestBody, listener);
     }
 
 }
