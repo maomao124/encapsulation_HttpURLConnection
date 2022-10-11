@@ -5,6 +5,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
 
 /**
@@ -42,10 +44,34 @@ public class SimpleHTTPImpl implements HTTP
      */
     private Map<String, String> defaultRequestHeader;
 
+    /**
+     * 线程池
+     */
+    private ExecutorService threadPool;
+
 
     public SimpleHTTPImpl()
     {
 
+    }
+
+    /**
+     * SimpleHTTPImpl
+     *
+     * @param charset              字符集
+     * @param connectTimeout       连接超时
+     * @param readTimeout          读取超时
+     * @param defaultRequestHeader 默认请求头
+     * @param threadPool           线程池
+     */
+    public SimpleHTTPImpl(String charset, int connectTimeout, int readTimeout,
+                          Map<String, String> defaultRequestHeader, ExecutorService threadPool)
+    {
+        this.charset = charset;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
+        this.defaultRequestHeader = defaultRequestHeader;
+        this.threadPool = threadPool;
     }
 
     /**
@@ -145,6 +171,30 @@ public class SimpleHTTPImpl implements HTTP
     public HTTP setDefaultRequestHeader(Map<String, String> defaultRequestHeader)
     {
         this.defaultRequestHeader = defaultRequestHeader;
+        return this;
+    }
+
+
+    /**
+     * 获取线程池
+     *
+     * @return {@link ExecutorService}
+     */
+    public ExecutorService getThreadPool()
+    {
+        return threadPool;
+    }
+
+
+    /**
+     * 设置线程池
+     *
+     * @param threadPool 线程池
+     * @return {@link HTTP}
+     */
+    public HTTP setThreadPool(ExecutorService threadPool)
+    {
+        this.threadPool = threadPool;
         return this;
     }
 
@@ -376,5 +426,113 @@ public class SimpleHTTPImpl implements HTTP
     public String GET(String urlString)
     {
         return request(urlString, "GET", null, null);
+    }
+
+    /**
+     * 异步请求
+     *
+     * @param urlString     url字符串
+     * @param method        方法
+     * @param requestHeader 请求头
+     * @param requestBody   请求体
+     * @param listener      侦听器
+     */
+    @Override
+    public void asyncRequest(String urlString, String method, Map<String, String> requestHeader, String requestBody, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步请求
+     *
+     * @param urlString     url字符串
+     * @param method        方法
+     * @param requestHeader 请求头
+     * @param listener      侦听器
+     */
+    @Override
+    public void asyncRequest(String urlString, String method, Map<String, String> requestHeader, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步请求
+     *
+     * @param urlString   url字符串
+     * @param method      方法
+     * @param requestBody 请求体
+     * @param listener    侦听器
+     */
+    @Override
+    public void asyncRequest(String urlString, String method, String requestBody, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步请求
+     *
+     * @param urlString url字符串
+     * @param method    方法
+     * @param listener  侦听器
+     */
+    @Override
+    public void asyncRequest(String urlString, String method, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步GET请求
+     *
+     * @param urlString     url字符串
+     * @param requestHeader 请求头
+     * @param requestBody   请求体
+     * @param listener      侦听器
+     */
+    @Override
+    public void asyncGETRequest(String urlString, Map<String, String> requestHeader, String requestBody, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步GET请求
+     *
+     * @param urlString     url字符串
+     * @param requestHeader 请求头
+     * @param listener      侦听器
+     */
+    @Override
+    public void asyncGETRequest(String urlString, Map<String, String> requestHeader, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步GET请求
+     *
+     * @param urlString   url字符串
+     * @param requestBody 请求体
+     * @param listener    侦听器
+     */
+    @Override
+    public void asyncGETRequest(String urlString, String requestBody, HTTPHandlerListener listener)
+    {
+
+    }
+
+    /**
+     * 异步GET请求
+     *
+     * @param urlString url字符串
+     * @param listener  侦听器
+     */
+    @Override
+    public void asyncGETRequest(String urlString, HTTPHandlerListener listener)
+    {
+
     }
 }
