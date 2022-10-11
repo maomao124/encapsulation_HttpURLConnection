@@ -2,8 +2,11 @@ package mao;
 
 import org.junit.jupiter.api.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -55,5 +58,37 @@ class SimpleHTTPImplTest
     {
         String s = http.GET("https://www.bilibili.com/");
         System.out.println(s);
+    }
+
+    @Test
+    void asyncRequest()
+    {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        http.setThreadPool(executorService);
+
+        http.asyncRequest("https://www.bilibili.com/", "GET", new HTTPHandlerListener()
+        {
+            @Override
+            public void OKHandler(String responseString, int responseCode)
+            {
+                System.out.println(responseCode);
+                System.out.println(responseString);
+            }
+
+            @Override
+            public void ExceptionHandler(IOException e, int responseCode)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        try
+        {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
